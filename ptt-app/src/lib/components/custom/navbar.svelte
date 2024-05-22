@@ -10,14 +10,14 @@
     <nav
         class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
     >
-        <a href="##" class="flex items-center gap-2 text-lg font-semibold md:text-base">
+        <a href="/" class="flex items-center gap-2 text-lg font-semibold md:text-base">
             <CalendarCheck class="h-6 w-6" />
             <span class="sr-only">Acme Inc</span>
         </a>
-        <a href="##" class="text-muted-foreground hover:text-foreground transition-colors">
+        <a href="/create" class="text-muted-foreground hover:text-foreground transition-colors">
             Create
         </a>
-        <a href="##" class="text-muted-foreground hover:text-foreground transition-colors">
+        <a href="/about" class="text-muted-foreground hover:text-foreground transition-colors">
             About
         </a>
     </nav>
@@ -30,12 +30,12 @@
         </Sheet.Trigger>
         <Sheet.Content side="left">
             <nav class="grid gap-6 text-lg font-medium">
-                <a href="##" class="flex items-center gap-2 text-lg font-semibold">
+                <a href="/" class="flex items-center gap-2 text-lg font-semibold">
                     <CalendarCheck class="h-6 w-6" />
                     <span class="sr-only">Acme Inc</span>
                 </a>
-                <a href="##" class="text-muted-foreground hover:text-foreground"> Create Event </a>
-                <a href="##" class="text-muted-foreground hover:text-foreground"> About </a>
+                <a href="/create" class="text-muted-foreground hover:text-foreground"> Create Event </a>
+                <a href="/about" class="text-muted-foreground hover:text-foreground"> About </a>
             </nav>
         </Sheet.Content>
     </Sheet.Root>

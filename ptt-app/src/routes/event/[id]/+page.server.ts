@@ -18,10 +18,37 @@ export async function load({ params }) {
     if (!e) {
         throw Error();
     }
+
+    if (!e.dates) {
+        throw Error();
+    }
+
+    const serialDates = e.dates.map(g => {
+
+        const stringTimes = g.times.map(t => {
+            return {
+                timeId: t.timeId,
+                time: t.time.toString()
+            }
+        })
+
+        return { 
+            dateId: g.dateId,
+            date: g.date.toString(),
+            times: stringTimes
+        }
+    })
+
     const d = {
         title: e.title,
         date: e.eventDate?.toString(),
         time: e.eventTime?.toString(),
+        dates: serialDates,
+        people: e.people
+    }
+
+    if (!d.dates && d.dates == 'undefined') {
+        throw Error
     }
 	return {
         d
