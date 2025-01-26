@@ -1,5 +1,0 @@
-[edgedb]
-server-version = "3.1"
-
-[project]
-schema-dir = "../../../../mainDb/db/schema"

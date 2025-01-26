@@ -4,9 +4,22 @@
 	import * as Card from '$lib/components/ui/card/index';
 	import { Input } from '$lib/components/ui/input/index';
 	import { Label } from '$lib/components/ui/label/index';
+	import type { SuperValidated } from 'sveltekit-superforms';
     import type { PageData } from "./$types.js";
     import CreateForm from "./create-form.svelte";
+    
+    
+    // export let data: PageData;
+
+    // <SuperValidated<Infer<FormSchema>>
+
     export let data: PageData;
+
+    // const cc = {
+    //     title: form.data.title,
+    //     date: form.data.date,
+    //     time: form.data.time
+    // }
 
     // export let form;
     // export let data;
@@ -24,22 +37,8 @@
             </Card.Header>
             <Card.Content class="grid gap-4">
                 <CreateForm data={data.form} />
-                <!-- <form class="grid gap-2"
-                    method="POST"
-                    action="?/event"
-                >
-                    <Label for="name">Event Name</Label>
-                    <Input id="name" name="name" type="text" placeholder="Fancy BBQ" required />
-                    <Label for="date">Event Date</Label>
-                    <Input id="date" name="date" type="date" required />
-                    <Label for="time">Event Time</Label>
-                    <Input id="time" name="time" type="time" required />
-                    <Button type=button>Create</Button>
-                    <button>Create</button>
-                </form> -->
             </Card.Content>
             <Card.Footer class="flex justify-between">
-                <!-- <Button>Create</Button> -->
             </Card.Footer>
         </Card.Root>
 </div>

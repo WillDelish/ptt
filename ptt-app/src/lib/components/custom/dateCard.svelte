@@ -6,7 +6,20 @@
 	import { Checkbox } from '$lib/components/ui/checkbox/index';
 	import { Input } from '$lib/components/ui/input/index';
 
-    export let data
+    export const data = $props();
+
+    const choices = [
+        { value: "yes", label: "Yes" },
+        { value: "no", label: "No" },
+        { value: "maybe", label: "Maybe" },
+    ];
+ 
+    let value = $state("");
+ 
+    const triggerContent = $derived(
+        choices.find((f) => f.value === value)?.label ?? "Select..."
+    );
+
 
 </script>
 {#each data.d.dates as d}
@@ -28,9 +41,9 @@
                         <Table.Row>
                             <Table.Cell>{t.time}</Table.Cell>
                             <Table.Cell>
-                                <Select.Root>
+                                <Select.Root type="single">
                                     <Select.Trigger class="w-[180px]">
-                                        <Select.Value placeholder="Vote" />
+                                        {{triggerContent}}
                                     </Select.Trigger>
                                     <Select.Content>
                                         <Select.Item value="yes" class="bg-green-500 hover:bg-green-600">Yes</Select.Item>

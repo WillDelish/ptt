@@ -1,0 +1,1 @@
+UPDATE event SET users=json_insert(users, '$.' || 'bob', 'America/Los_Angeles') WHERE id = "wVu8SvW"

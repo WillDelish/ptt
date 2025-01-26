@@ -7,7 +7,12 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
+
+		interface PageState {
+			modal: boolean;
+		}
 	}
+
 }
 
 export {};

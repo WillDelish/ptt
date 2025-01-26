@@ -2,13 +2,15 @@
 	import Darkmode from '$lib/components/custom/darkmode.svelte';
 	import Menu from 'lucide-svelte/icons/menu';
 	import CalendarCheck from 'lucide-svelte/icons/calendar-check';
+    import { buttonVariants } from "$lib/components/ui/button/index";
 	import { Button } from '$lib/components/ui/button/index';
 	import * as Sheet from '$lib/components/ui/sheet/index';
+
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 </script>
 
-<header class="bg-background sticky top-0 flex h-16 items-center gap-4 border-b px-4 md:px-6">
-    <nav
-        class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
+<header class="bg-background sticky top-0 flex h-16 items-center gap-4 z-0 px-4 md:px-6">
+    <nav class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
     >
         <a href="/" class="flex items-center gap-2 text-lg font-semibold md:text-base">
             <CalendarCheck class="h-6 w-6" />
@@ -22,8 +24,8 @@
         </a>
     </nav>
     <Sheet.Root>
-        <Sheet.Trigger asChild let:builder>
-            <Button variant="outline" size="icon" class="shrink-0 md:hidden" builders={[builder]}>
+        <Sheet.Trigger>
+            <Button size="icon" class="shrink-0 md:hidden">
                 <Menu class="h-5 w-5" />
                 <span class="sr-only">Toggle navigation menu</span>
             </Button>
@@ -41,5 +43,6 @@
     </Sheet.Root>
     <div class="flex w-full flex-row-reverse gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <Darkmode />
+        <p>Timezone: <span class="text-primary">{timezone}</span></p>
     </div>
 </header>

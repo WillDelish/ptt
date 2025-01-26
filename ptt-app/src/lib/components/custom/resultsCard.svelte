@@ -1,33 +1,37 @@
 <script lang="ts">
+    import * as Table from "$lib/components/ui/table";
     import { Button } from '$lib/components/ui/button/index';
 	import * as Card from '$lib/components/ui/card/index';
-	import { Checkbox } from '$lib/components/ui/checkbox/index';
-	import { Input } from '$lib/components/ui/input/index';
+    import * as Select from "$lib/components/ui/select";
+
+    export let data;
 
 </script>
 
-<Card.Root>
+<Card.Root class="mx-auto w-full max-w-sm">
     <Card.Header>
-        <Card.Title>Plugins Directory</Card.Title>
-        <Card.Description>
-            The directory within your project, in which your plugins are located.
-        </Card.Description>
+        <Card.Title class="text-2xl px-10"><span class="text-primary">Results</span></Card.Title>
+        <Card.Description>Vote on times bellow:</Card.Description>
     </Card.Header>
-    <Card.Content>
-        <form class="flex flex-col gap-4">
-            <Input placeholder="Project Name" value="/content/plugins" />
-            <div class="flex items-center space-x-2">
-                <Checkbox id="include" checked={true} />
-                <label
-                    for="include"
-                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                    Allow administrators to change the directory.
-                </label>
-            </div>
-        </form>
+    <Card.Content class="grid gap-4">
+        <Table.Root>
+            <Table.Header>
+            <Table.Row>
+                {#each data.d.dates as d}
+                    <Table.Head>{d.date}</Table.Head>
+                {/each}
+            </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {#each data.d.times as t}
+                    <Table.Row>
+                        <Table.Cell>{t.time}</Table.Cell>
+                    </Table.Row>
+                {/each}
+            </Table.Body>
+        </Table.Root>
     </Card.Content>
-    <Card.Footer class="border-t px-6 py-4">
-        <Button>Save</Button>
-    </Card.Footer>
+    <!-- <Card.Footer class="flex justify-between">
+        <Button>Add Name</Button>
+    </Card.Footer> -->
 </Card.Root>
