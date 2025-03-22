@@ -5,7 +5,7 @@
     import { NewEvent, type User } from './fancyStore';
 
     // export let pp: User
-    let { users }: { users: User } = $props();
+    let { users, id }: { users: User, id: string } = $props();
 
     const names = Object.keys(users)
 
@@ -34,7 +34,8 @@
                             {#each names as p}
                                 <tr>
                                     <td class="flex hover:text-primary">
-                                        <button>{ p }</button>
+                                        <!-- <button>{ p }</button> -->
+                                        <a href="/event/{id}/vote?user={p}">{ p }</a>
                                     </td>
                                 </tr>
                             {/each}

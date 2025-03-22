@@ -3,8 +3,7 @@
     import ResultTest from './result.svelte'
     import PeopleCard from './people-card.svelte'
     import Button from '$lib/components/ui/button/button.svelte';
-
-	import type { parsedEvent } from '$lib/server/sql/get/get-event';
+	import type { parsedEvent } from '$lib/types';
 	import { object } from 'zod';
 
     export const { data } = $props();
@@ -27,9 +26,9 @@
     </div>
     <!-- <DateCard2 {data} /> -->
     <ShareLink {id} />
-    <ResultTest {dataSig}/>
+    <ResultTest {dataSig} name={data.users}/>
     {#if userList.length > 0}
-        <PeopleCard users={ usersArray }/>
+        <PeopleCard users={ usersArray } {id}/>
     {:else}
         <div>
             <p>No Users</p>

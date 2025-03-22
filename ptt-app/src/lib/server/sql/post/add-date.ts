@@ -14,10 +14,7 @@ export async function AddDateTime(id: string, time: string): Promise<GetRunRespo
     }
 
     try {
-        const stmt = await db.execute({
-            sql:"UPDATE event SET dates=json_insert(dates, '$[#]', :time) WHERE id = :id",
-            args: params
-        });
+        const stmt = await db.execute(`UPDATE event SET vote_json=json_set(vote_json, '$.${params.time}', json('{}')) WHERE id='${params.id}'`);
         const d = stmt.rows[0]
         console.log(d)
         return({ok: true, data: d})

@@ -26,6 +26,9 @@
     });
 
     const { form: formData } = form;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    formData.set({name: "", timezone: timezone})
+
 </script>
 
 <Card.Root class="mx-auto w-full max-w-sm">
@@ -38,11 +41,21 @@
             <Form.Field {form} name="name">
                 <Form.Control>
                     {#snippet children({ props })}
-                    <Form.Label>Name</Form.Label>
-                    <Input {...props} bind:value={$formData.name} />
+                        <Form.Label>Name</Form.Label>
+                        <Input {...props} bind:value={$formData.name} />
                     {/snippet}
                 </Form.Control>
                 <Form.Description>Your name I guess</Form.Description>
+                <Form.FieldErrors />
+            </Form.Field>
+            <Form.Field {form} name="timezone">
+                <Form.Control>
+                    {#snippet children({ props })}
+                        <Form.Label>Timezone</Form.Label>
+                        <Input {...props} bind:value={$formData.timezone} />
+                    {/snippet}
+                </Form.Control>
+                <Form.Description>Timezone</Form.Description>
                 <Form.FieldErrors />
             </Form.Field>
             <Form.Button>Submit</Form.Button>

@@ -1,4 +1,4 @@
-import type { newEvent, User, Votes } from '../../../types';
+import type { newEvent, User, Votes, parsedEvent } from '../../../types';
 import { createClient } from "@libsql/client";
 
 const db = createClient({
@@ -9,20 +9,19 @@ type CreateResponse = {ok: true, id: string} | {ok: false, error: Error}
 
 // Need to provide the functionality to have multiple dates for the event
 export async function CreateEvent(q: newEvent): Promise<CreateResponse> {
+
     const params = {
         id: q.id,
         dates: q.dates.toString(),
         title: q.title,
         users: "{}",
-        vote_yes: "{}",
-        vote_no: "{}",
-        vote_maybe: "{}",
+        vote_json: `{"${q.dates}": {}}`,
     }
 
     try {
 
         const ce = await db.execute({
-            sql: "INSERT into event (id, dates, title, users, vote_yes, vote_no, vote_maybe) VALUES (:id, json_array(:dates), :title, :users, :vote_yes, :vote_no, :vote_maybe)",
+            sql: "INSERT into event (id, dates, title, users, vote_json) VALUES (:id, json_array(:dates), :title, :users, :vote_json)",
             args: params
         })
         // const stmt = await db.execute(`INSERT into event (:id, :dates, :users, :votes, :title, :created_at) VALUES (?,json_array(?),?,json_array(?),?,?)`)

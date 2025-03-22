@@ -1,4 +1,4 @@
-import type { newEvent, User, Votes } from '../../../types';
+// import type { newEvent, User, Votes } from '../../../types';
 import { createClient } from "@libsql/client";
 
 const db = createClient({

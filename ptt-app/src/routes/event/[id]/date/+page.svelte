@@ -47,7 +47,7 @@ next steps:
 				{#snippet children({ props })}
 					<Form.Label>Date</Form.Label>
 					<Input type="date" {...props} bind:value={$formDb.date} />
-				  {/snippet}
+				{/snippet}
 			</Form.Control>
 			<Form.Description>Choose a date for your event.</Form.Description>
 			<Form.FieldErrors />
@@ -57,7 +57,7 @@ next steps:
 				{#snippet children({ props })}
 					<Form.Label>Time</Form.Label>
 					<Input type="time" {...props} bind:value={$formDb.time} />
-				  {/snippet}
+				{/snippet}
 			</Form.Control>
 			<Form.Description>Choose a time for your event.</Form.Description>
 			<Form.FieldErrors />

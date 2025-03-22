@@ -16,7 +16,7 @@
             <CalendarCheck class="h-6 w-6" />
             <span class="sr-only">Acme Inc</span>
         </a>
-        <a href="/create" class="text-muted-foreground hover:text-foreground transition-colors">
+        <a href="/" class="text-muted-foreground hover:text-foreground transition-colors">
             Create
         </a>
         <a href="/about" class="text-muted-foreground hover:text-foreground transition-colors">
@@ -36,7 +36,7 @@
                     <CalendarCheck class="h-6 w-6" />
                     <span class="sr-only">Acme Inc</span>
                 </a>
-                <a href="/create" class="text-muted-foreground hover:text-foreground"> Create Event </a>
+                <a href="/" class="text-muted-foreground hover:text-foreground"> Create Event </a>
                 <a href="/about" class="text-muted-foreground hover:text-foreground"> About </a>
             </nav>
         </Sheet.Content>

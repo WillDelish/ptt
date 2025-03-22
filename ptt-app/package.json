@@ -24,7 +24,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.19.1",
 		"@typescript-eslint/parser": "^8.19.1",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "1.0.0-next.77",
+		"bits-ui": "1.0.0-next.82",
 		"clsx": "^2.1.1",
 		"eslint": "^9.17.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -52,6 +52,7 @@
 	"type": "module",
 	"dependencies": {
 		"@libsql/client": "^0.14.0",
+		"@tanstack/table-core": "^8.20.5",
 		"date-fns": "^4.1.0",
 		"lucide-svelte": "^0.453.0",
 		"mode-watcher": "^0.4.1"

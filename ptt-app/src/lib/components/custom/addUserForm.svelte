@@ -6,9 +6,9 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { z } from "zod";
-	import { Button } from '../ui/button';
+	import { Button } from '$lib/components/ui/button';
 
-	export let id: string;
+	export const id: string = $props()
 
 	// export let data: SuperValidated<Infer<FormSchema>>;
 	
@@ -39,7 +39,6 @@
 </form> -->
 
 <form method="POST" action="?/addUser" use:enhance>
-	<!-- svelte-ignore a11y-label-has-associated-control -->
 	<label>
 		Name
 		<Input name="name" type="text" />

@@ -1,98 +1,65 @@
-import type { newEvent, User, Votes } from '../../../types';
+import type { newEvent, User, Votes, vote } from '../../../types';
 import { createClient, type ResultSet, type Row } from "@libsql/client";
 
 const db = createClient({
-  url: "file:src/database/main.db",
+    url: "file:database/main.db",
 });
 
-type VoteInput = {
-    date: string
-    names: string[]
-    vote: vote
-}
-
-type vote = "yes" | "no" | "maybe"
-
 type GetRunResponse = { ok: true } | {ok: false, error: string}
-
-export async function AddVote(id: string, voteInput: VoteInput): Promise<GetRunResponse> {
-
-    // const date = voVteInput.date;
-    // const value = {
-    //     [date]:voteInput.names.toString(),
-    //     // votes: newUser[name].votes
-    // }
-    // console.log('name:', name)
-    const params = {
-        date: voteInput.date,
-        names: voteInput.names.toString(),
-        vote: `vote_${voteInput.vote}`,
-        id: id,
-    }
-    console.log(params)
-
-    try {
-
-        `UPDATE event SET vote_yes=json_insert(vote_yes, '$[#]', json('{"date": "2024-11-25T10:18:00", "names": "bob,billy,michael"}')) WHERE id = 'O2KIbKf'`
-
-        const stmt = await db.execute({
-            sql:`UPDATE event SET vote_yes=json_insert(vote_yes, '$.' || :date, [:names]) WHERE id = :id`,
-            args: params
-        });
-        return({ ok: true })
-        
-    } catch (error) {
-        console.log(error)
-        return({ok: false, error: new Error(`failed: ${error}`).message})
-    }
-
-}
-
+type UserVoteProp = { [key: string]: vote }
 type AddUserInput = {
     id: string
-    date: string
     user: string
-    vote: vote
+    // votes: arrayVotes[]
+    votes: UserVoteProp
 }
 
+// Take in an array of time and vote options
+// Call the DB to push them
 export async function AddUserVote(input: AddUserInput): Promise<GetRunResponse> {
 
-    // const date = voVteInput.date;
-    // const value = {
-    //     [date]:voteInput.names.toString(),
-    //     // votes: newUser[name].votes
-    // }
-    // console.log('name:', name)
-    const params = {
-        date: input.date,
-        user: input.user,
-        id: input.id,
-        vote: input.vote
-    }
-    console.log(params)
+    // console.log(`AddUserVote input: `, input)
 
-    let vote_param = ""
+    const voteKeys = Object.keys(input.votes)
 
-    if (input.vote === "yes") {
-        vote_param = "UPDATE event SET vote_yes=json_insert(vote_yes, '$.' || :date || '[#]', :user) WHERE id = :id"
-    }
-    
-    if (input.vote === "no") {
-        vote_param = "UPDATE event SET vote_no=json_insert(vote_no, '$.' || :date || '[#]', :user) WHERE id = :id"
-    }
-    
-    if (input.vote === "maybe") {
-        vote_param = "UPDATE event SET vote_maybe=json_insert(vote_maybe, '$.' || :date || '[#]', :user) WHERE id = :id"
-    }
+    const arryVoteObj = voteKeys.map(m => {
+        return {
+            vote: input.votes[m],
+            date: m
+        }
+    })
+
+    // console.log(arryVoteObj);
+
+    const voteArray = arryVoteObj.map(v => {
+        const voteBuilder = ({vote, date, user, id}: {vote: string, date: string, user: string, id: string}) => `UPDATE event SET vote_json=json_set(vote_json, '$.${date}.${user}', '${vote}') WHERE id='${id}'`
+
+        if (v.vote === "yes") {
+            const vote_param = voteBuilder({vote: 'yes', date: v.date, user: input.user, id: input.id})
+            return vote_param
+        }
+        if (v.vote === "no") {
+            const vote_param = voteBuilder({vote: 'no', date: v.date, user: input.user, id: input.id})
+            return vote_param
+        }
+        if (v.vote === "maybe") {
+            const vote_param = voteBuilder({vote: 'maybe', date: v.date, user: input.user, id: input.id})
+            return vote_param
+        }
+        // if we have a bad vote value, we'll get an error.
+        throw new Error("No vote options found")
+    }) 
+
+    // const voteArray = [`UPDATE event SET vote_json = json_set(vote_json, '$.2024-11-11T15:18:00.bob', 'yes') WHERE id='wVu8SvW'`]
+
+    console.log('vote array: ', voteArray)
 
     try {
 
-        // `UPDATE event SET vote_yes=json_insert(vote_yes, '$[#]', json('{"date": "2024-11-25T10:18:00", "names": "bob,billy,michael"}')) WHERE id = 'O2KIbKf'`
-
-        const stmt = await db.execute({
-            sql: vote_param,
-            args: params
-        });
+        const stmt = await db.batch(
+            voteArray,
+            "write"
+        );
         return({ ok: true })
         
     } catch (error) {

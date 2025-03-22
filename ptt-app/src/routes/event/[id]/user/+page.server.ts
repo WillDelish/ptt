@@ -1,15 +1,13 @@
-// import { CreateEvent, AddDate, AddTime } from '$lib/server/db';
-// import { CreateEvent } from "$lib/server/sql";
 import { redirect, fail } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
-import { type User } from "../fancyStore";
 import { AddUser } from "$lib/server/sql/post/add-user";
 import { z } from "zod";
 
 const formSchema = z.object({
     name: z.string().min(2).max(20),
+	timezone: z.string().min(2).max(30),
 });
  
 export const load: PageServerLoad = async () => {
@@ -19,50 +17,25 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions = {
-	addUser: async ({ request, params }) => {
+	addUser: async (event) => {
 
-		// const form = await superValidate(request, zod(formSchema));
+		const form = await superValidate(event, zod(formSchema));
 		
-		// if (!form.valid) {
-		// 	return fail(400, {
-		// 		form,
-		// 	});
-		// }
-		const formData = await request.formData();
-
-		const name = formData.get('name') as string;
-		// const id = params.id;
-
-		if (name.length < 2) {
+		if (!form.valid) {
 			return fail(400, {
-				error: true,
-				message: 'Name must be at least two characters.',
-				name,
+				form,
 			});
 		}
 
-
-		// const newUser: User = {
-		// 	[name]: {timezone: 'America/Los_Angeles'}
-		// }
-
-        // console.log('Adding user: ', newUser)
-
-		const eventId = params.id
-
-		const addUser = await AddUser(eventId, {name: name, timezone: 'America/Los_Angeles'})
+		const name = form.data.name
+		const timezone = form.data.timezone
+		const eventId = event.params.id
+		const addUser = await AddUser(eventId, {name: name, timezone: timezone})
         // console.log(eventId);
 		if (!addUser.ok) {
 			throw new Error('Failed to create user')
 		}
 
-		
-
-		throw redirect(303, `/event/${eventId}`);
-
-        // return {
-        //     success: true,
-        //     message: addUser
-        // }
+		throw redirect(303, `/event/${eventId}/vote?user=${name}`);
 	},
 };
